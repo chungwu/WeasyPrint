@@ -416,9 +416,11 @@ def gather_metadata(pages):
                         % (href, box.sourceline))
                 else:
                     resolved_page_links.append((type_, target, rectangle))
-            else:
-                # external link:
-                resolved_page_links.append((type_, href, rectangle))
+            else: 
+                # external link; but skip "javascript:" links, as they won't
+                # work in PDFs anyway
+                if not href.lower().startswith('javascript:'):
+                    resolved_page_links.append((type_, href, rectangle))
         resolved_links_by_page.append(resolved_page_links)
 
     return process_bookmarks(bookmarks), resolved_links_by_page
